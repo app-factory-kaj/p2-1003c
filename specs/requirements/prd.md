@@ -39,4 +39,4 @@ None at this time.
 
 ## Further Notes
 
-None.
+Persistence is out of scope for v1.
