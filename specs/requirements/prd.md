@@ -41,4 +41,4 @@ None at this time.
 
 ## Further Notes
 
-Persistence is out of scope for v1.
+Persistence is out of scope for v1. R3-marker.
