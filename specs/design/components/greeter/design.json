@@ -8,7 +8,7 @@
   "entrypoint": "deployment/service",
   "exposure": "internet",
   "dependencies": [],
-  "description": "Single-endpoint reference service: GET /hello returns a JSON greeting addressed to a name query parameter, or a generic greeting when name is omitted. Stateless — no persistence, no auth, no rate limiting, and no endpoint other than /hello. Built to the structure and error-shape conventions in app-factory-kaj/e2e-reference (cmd/+internal layout, net/http, JSON errors). Language is Go per the PRD's explicit request, overriding the organization's Ballerina default for services — *assumed* accepted as the recommended answer; confirm or switch to Ballerina if preferred.",
+  "description": "Single-endpoint reference service: GET /hello returns a JSON greeting addressed to a name query parameter, or a generic greeting when name is omitted. Stateless — no persistence, no auth, no rate limiting, and no endpoint other than /hello. Built to the structure and error-shape conventions in app-factory-kaj/e2e-reference (cmd/+internal layout, net/http, JSON errors). Language is Go because the PRD's Solution explicitly specifies a Go HTTP service, overriding the organization's Ballerina default for services.",
   "stories": [1, 2],
   "skillsPinned": ["openapi-conventions", "go"]
 }
