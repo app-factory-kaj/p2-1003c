@@ -1,9 +1,9 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-02T23:35:15Z",
-  "commit": "23346222061be8affc6d92380d3f22ea7c278d49",
+  "generatedAt": "2026-10-04T00:45:20Z",
+  "commit": "22ce0be68109ea9ed6f9982401b83255aa9f5928",
   "baseUrl": "http://development-default.openchoreoapis.localhost:19080/p2-1003c-greeter-http",
-  "isolation": "stateless read-only GET endpoint with no shared mutable state; each scenario's assertion depends only on its own request/response pair",
+  "isolation": "stateless read-only API; no container to create or own — each scenario asserts directly on the response to its own request",
   "scenarios": [
     {
       "feature": "Greeting",
@@ -15,14 +15,14 @@
       "outcome": "passed",
       "steps": [
         { "text": "the greeter service is running", "keyword": "Given",
-          "command": "curl -s -o /dev/null -w \"%{http_code}\" http://development-default.openchoreoapis.localhost:19080/p2-1003c-greeter-http/hello",
-          "exit": 0, "observed": "200" },
+          "command": "curl -s -i --max-time 10 \"$BASE/hello\"", "exit": 0,
+          "observed": "HTTP/1.1 200 OK" },
         { "text": "an API consumer sends a GET request to \"/hello\" with name \"Ada\"", "keyword": "When",
-          "command": "curl -s -w \"\\nHTTP_STATUS:%{http_code}\" \"http://development-default.openchoreoapis.localhost:19080/p2-1003c-greeter-http/hello?name=Ada\"",
-          "observed": "no UI exists for this API-only service; action performed directly against the deployed endpoint" },
+          "command": "curl -s -i --max-time 10 \"$BASE/hello?name=Ada\"", "exit": 0,
+          "observed": "HTTP/1.1 200 OK, content-type: application/json, body {\"message\":\"Hello, Ada!\"}" },
         { "text": "the response is JSON containing a greeting addressed to \"Ada\"", "keyword": "Then",
-          "command": "curl -s \"http://development-default.openchoreoapis.localhost:19080/p2-1003c-greeter-http/hello?name=Ada\"",
-          "exit": 0, "observed": "HTTP 200, body {\"message\":\"Hello, Ada!\"}" }
+          "command": "curl -s --max-time 10 \"$BASE/hello?name=Ada\" | grep -q '\"message\":\"Hello, Ada!\"'",
+          "exit": 0, "observed": "{\"message\":\"Hello, Ada!\"}" }
       ],
       "evidence": {
         "network": [{ "method": "GET", "url": "/hello?name=Ada", "status": 200 }]
@@ -38,14 +38,14 @@
       "outcome": "passed",
       "steps": [
         { "text": "the greeter service is running", "keyword": "Given",
-          "command": "curl -s -o /dev/null -w \"%{http_code}\" http://development-default.openchoreoapis.localhost:19080/p2-1003c-greeter-http/hello",
-          "exit": 0, "observed": "200" },
+          "command": "curl -s -i --max-time 10 \"$BASE/hello\"", "exit": 0,
+          "observed": "HTTP/1.1 200 OK" },
         { "text": "an API consumer sends a GET request to \"/hello\" with no name parameter", "keyword": "When",
-          "command": "curl -s -w \"\\nHTTP_STATUS:%{http_code}\" \"http://development-default.openchoreoapis.localhost:19080/p2-1003c-greeter-http/hello\"",
-          "observed": "no UI exists for this API-only service; action performed directly against the deployed endpoint" },
+          "command": "curl -s -i --max-time 10 \"$BASE/hello\"", "exit": 0,
+          "observed": "HTTP/1.1 200 OK, content-type: application/json, body {\"message\":\"Hello, World!\"}" },
         { "text": "the response is JSON containing a generic greeting addressed to \"World\"", "keyword": "Then",
-          "command": "curl -s \"http://development-default.openchoreoapis.localhost:19080/p2-1003c-greeter-http/hello\"",
-          "exit": 0, "observed": "HTTP 200, body {\"message\":\"Hello, World!\"}" }
+          "command": "curl -s --max-time 10 \"$BASE/hello\" | grep -q '\"message\":\"Hello, World!\"'",
+          "exit": 0, "observed": "{\"message\":\"Hello, World!\"}" }
       ],
       "evidence": {
         "network": [{ "method": "GET", "url": "/hello", "status": 200 }]
